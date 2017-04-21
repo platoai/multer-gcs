@@ -1,4 +1,4 @@
-var gcloud = require('gcloud');
+var gcloud = require('@google-cloud/storage');
 var crypto = require('crypto');
 var fs     = require('fs');
 var mime   = require('mime-types');
