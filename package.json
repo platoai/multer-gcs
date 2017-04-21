@@ -1,11 +1,11 @@
 {
   "name": "multer-gcs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Streaming multer storage engine for Google Cloud Storage",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jahmed76/multer-gcs.git"
+    "url": "git+https://github.com/machinshin/multer-gcs.git"
   },
   "keywords": [
     "multer",
@@ -14,12 +14,20 @@
   ],
   "author": "jahmed76",
   "license": "MIT",
+  "contributors": [{
+    "name": "Vat Raghavan",
+    "email": "vat.raghavan@workerbee.ai",
+    "url": "https://github.com/machinshin",
+    "contributions": 1,
+    "hireable": false
+  }],
   "bugs": {
     "url": "https://github.com/jahmed76/multer-gcs/issues"
   },
   "homepage": "https://github.com/jahmed76/multer-gcs#readme",
   "dependencies": {
-    "gcloud": "^0.36.0"
+    "@google-cloud/storage": "^1.1.0",
+    "mime-types": "^2.1.15"
   },
   "devDependencies": {}
 }
