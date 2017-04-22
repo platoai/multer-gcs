@@ -1,8 +1,8 @@
-var storage = require('@google-cloud/storage');
-var crypto  = require('crypto');
-var fs      = require('fs');
-var mime    = require('mime-types');
-var path    = require('path');
+var gcloud = require('@google-cloud/storage');
+var crypto = require('crypto');
+var fs     = require('fs');
+var mime   = require('mime-types');
+var path   = require('path');
 
 function getFilename( req, file, cb ) {
 
@@ -40,7 +40,7 @@ function GCStorage (opts) {
     throw new Error( 'You have to specify credentials key file for Google Cloud Storage to work.' );
   }
 
-  this.gcobj = storage({
+  this.gcobj = gcloud.storage({
     projectId:   opts.projectId,
     keyFilename: opts.keyFilename
   });
@@ -57,7 +57,7 @@ GCStorage.prototype._handleFile = function (req, file, cb) {
 
     self.getFilename( req, file, function( err, filename ) {
       if (err) { return cb(err); }
-      // set upload options
+      // set options for upload
       var new_options = {
         //set mime-type
         metadata: { contentType: mime.contentType(path.basename(file)) },
