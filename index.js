@@ -1,4 +1,4 @@
-var gcloud = require('@google-cloud/storage');
+var storage = require('@google-cloud/storage');
 var crypto = require('crypto');
 var fs     = require('fs');
 var mime   = require('mime-types');
@@ -26,7 +26,7 @@ function GCStorage (opts) {
 
   opts.bucket      = ( opts.bucket    || process.env.GCS_BUCKET     || null );
   opts.projectId   = opts.projectId   || process.env.GCLOUD_PROJECT || null;
-  opts.keyFilename = opts.keyFilename || process.env.GCS_KEYFILE    || null;
+  opts.keyFilename = opts.keyFilename || process.env.GOOGLE_APPLICATION_CREDENTIALS || null;
 
   if (!opts.bucket) {
     throw new Error( 'You have to specify bucket for Google Cloud Storage to work.' );
@@ -40,10 +40,7 @@ function GCStorage (opts) {
     throw new Error( 'You have to specify credentials key file for Google Cloud Storage to work.' );
   }
 
-  this.gcobj = gcloud.storage({
-    projectId:   opts.projectId,
-    keyFilename: opts.keyFilename
-  });
+  this.gcobj = storage({ projectId:   opts.projectId, keyFilename: opts.keyFilename });
 
   this.gcsBucket = this.gcobj.bucket(opts.bucket);
   this.options = opts;
