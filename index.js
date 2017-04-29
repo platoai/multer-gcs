@@ -1,8 +1,9 @@
-var storage = require('@google-cloud/storage');
-var crypto = require('crypto');
-var fs     = require('fs');
-var mime   = require('mime-types');
-var path   = require('path');
+var storage       = require('@google-cloud/storage');
+var BufferStream  = require('bufferstream');
+var crypto        = require('crypto');
+var fs            = require('fs');
+var mime          = require('mime-types');
+var path          = require('path');
 
 function getFilename( req, file, cb ) {
 
@@ -17,7 +18,7 @@ function getDestination (req, file, cb) {
 
 function GCStorage (opts) {
   this.getFilename = (opts.filename || getFilename);
-
+  
   if ( 'string' === typeof opts.destination ) {
     this.getDestination = function( $0, $1, cb ) { cb(null, opts.destination); }
   } else {
@@ -43,7 +44,7 @@ function GCStorage (opts) {
   this.gcobj = storage({ projectId:   opts.projectId, keyFilename: opts.keyFilename });
 
   this.gcsBucket = this.gcobj.bucket(opts.bucket);
-  this.options = opts;
+  this.options   = opts;
 }
 
 GCStorage.prototype._handleFile = function (req, file, cb) {
@@ -57,20 +58,24 @@ GCStorage.prototype._handleFile = function (req, file, cb) {
       // set options for upload
       var new_options = {
         //set mime-type
-        metadata: { contentType: mime.contentType(path.basename(file)) },
+        metadata: { contentType: mime.contentType(path.basename(filename)) },
         //add predefined ACL
         predefinedAcl: self.options.acl || 'projectPrivate'
       }
 
       var gcFile = self.gcsBucket.file(filename);
-      file.stream.pipe(gcFile.createWriteStream(new_options))
+      var fileStream = new BufferStream({ size: 'flexible' });
+
+      file.stream.pipe(fileStream).pipe(gcFile.createWriteStream(new_options))
+
         .on('error', function(err) {
           return cb(err);
         })
         .on('finish', function(file) {
           return cb(null , {
-            path: 'https://storage.googleapis.com/' + self.options.bucket + filename,
-            filename: filename
+            path:     'https://storage.googleapis.com/' + self.options.bucket + filename,
+            filename: filename,
+            buffer:   fileStream.buffer,
           });
         });
     });
