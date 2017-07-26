@@ -1,14 +1,12 @@
-# Multer-Storage-GCS
+# multer-storage-gcs
 
-Google Cloud Storage Multer Storage Engine
-
-Multer Storage Engine that uses Google Cloud Storage as a storage system.
+> Multer Storage Engine for Google Cloud Storage.
 
 Please read the official `@google-cloud/storage` [documentation](https://googlecloudplatform.github.io/google-cloud-node/#/docs/storage/) for additional options.
 
 ## Installation
 
-	npm install multer-gcs
+	npm install @platoai/multer-gcs
 
 ## Usage
 
