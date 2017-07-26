@@ -32,7 +32,9 @@ app.post('/upload', gcsUpload.single('file'), function(req, res, next) {
 });
 ```
 
-You can also use environment variables for multer-gcs parameters.
+#### configuration
+
+You can also use environment variables for `multer-gcs` parameters.
 ```
 GCS_BUCKET='bucket-name'
 GCLOUD_PROJECT='dummy-project'
@@ -40,6 +42,19 @@ GCS_KEYFILE='/path/to/keyfile.json'
 ```
 
 All the official `@google-cloud/storage` authentication options should be supported by the `gcs` method. For more information, read the [documentation](https://googlecloudplatform.github.io/google-cloud-node/#/docs/storage/guides/authentication).
+
+#### transformers
+
+You can also pass an array of anything that implements the [streaming interface](https://nodejs.org/api/stream.html) and they will be applied before uploading the file to Google Cloud Storage.
+```javascript
+const gcs = require('multer-gcs');
+const sox = require('sox-stream');
+
+const storage = gcs({
+	bucket: 'bucket-name',
+	transformers: [sox({output: {type: 'wav'}})],
+});
+```
 
 ## License
 

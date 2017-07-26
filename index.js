@@ -38,8 +38,9 @@ function GCStorage(opts) {
 	}
 
 	this.gcobj = storage(opts);
-
 	this.gcsBucket = this.gcobj.bucket(opts.bucket);
+
+	this.transformers = opts.transformers || [];
 	this.options = opts;
 }
 
@@ -66,8 +67,13 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 			const gcFile = self.gcsBucket.file(filename);
 			const fileStream = new BufferStream({size: 'flexible'});
 
+			file.stream.pipe(fileStream);
+
+      for (const transformer of self.transformers) {
+				file.stream = file.stream.pipe(transformer);
+			}
+      
 			file.stream
-				.pipe(fileStream)
 				.pipe(gcFile.createWriteStream(newOptions))
 				.on('error', (err) => {
 					return cb(err);
