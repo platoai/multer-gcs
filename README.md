@@ -38,10 +38,10 @@ You can also use environment variables for `multer-gcs` parameters.
 ```
 GCS_BUCKET='bucket-name'
 GCLOUD_PROJECT='dummy-project'
-GCS_KEYFILE='/path/to/keyfile.json'
+GOOGLE_APPLICATION_CREDENTIALS='/path/to/keyfile.json'
 ```
 
-All the official `@google-cloud/storage` authentication options should be supported by the `gcs` method. For more information, read the [documentation](https://googlecloudplatform.github.io/google-cloud-node/#/docs/storage/guides/authentication).
+All the official `@google-cloud/storage` authentication options should be supported by the `gcs` method. For more information, read their [documentation](https://googlecloudplatform.github.io/google-cloud-node/#/docs/storage/guides/authentication).
 
 #### transformers
 
