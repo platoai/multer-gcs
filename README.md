@@ -6,7 +6,9 @@ Please read the official `@google-cloud/storage` [documentation](https://googlec
 
 ## Installation
 
-	npm install @platoai/multer-gcs
+```
+npm install @platoai/multer-gcs
+```
 
 ## Usage
 
@@ -15,18 +17,18 @@ const multer = require('multer');
 const gcs = require('multer-gcs');
 
 const storage = gcs({
-	filename: function(req, file, cb) {
-		cb(null, file.fieldname + '-' + Date.now());
-	},
-	bucket: 'bucket-name',
-	credentials: require('/path/to/keyfile.json'),
-	acl: 'publicRead', // Optional : Defaults to projectPrivate. See: https://cloud.google.com/storage/docs/access-control/lists
+  filename: function(req, file, cb) {
+  cb(null, file.fieldname + '-' + Date.now());
+  },
+  bucket: 'bucket-name',
+  credentials: require('/path/to/keyfile.json'),
+  acl: 'publicRead', // Optional : Defaults to projectPrivate. See: https://cloud.google.com/storage/docs/access-control/lists
 });
 
 const gcsUpload = multer({storage: storage});
 
 app.post('/upload', gcsUpload.single('file'), function(req, res, next) {
-	res.send('File was uploaded successfully!');
+  res.send('File was uploaded successfully!');
 });
 ```
 
@@ -49,8 +51,8 @@ const gcs = require('multer-gcs');
 const sox = require('sox-stream');
 
 const storage = gcs({
-	bucket: 'bucket-name',
-	transformers: [sox({output: {type: 'wav'}})],
+  bucket: 'bucket-name',
+  transformers: [sox({output: {type: 'wav'}})],
 });
 ```
 
