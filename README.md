@@ -14,7 +14,7 @@ npm install @platoai/multer-gcs
 
 ```javascript
 const multer = require('multer');
-const gcs = require('multer-gcs');
+const gcs = require('@platoai/multer-gcs');
 
 const storage = gcs({
   filename: function(req, file, cb) {
@@ -36,7 +36,7 @@ app.post('/upload', gcsUpload.single('file'), function(req, res, next) {
 
 #### configuration
 
-You can also use environment variables for `multer-gcs` parameters.
+You can also use environment variables for `@platoai/multer-gcs` parameters.
 
 ```bash
 GCS_BUCKET='bucket-name'
@@ -55,7 +55,7 @@ interface](https://nodejs.org/api/stream.html) and they will be applied before
 uploading the file to Google Cloud Storage.
 
 ```javascript
-const gcs = require('multer-gcs');
+const gcs = require('@platoai/multer-gcs');
 const sox = require('sox-stream');
 
 const storage = gcs({
