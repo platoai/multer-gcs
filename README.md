@@ -38,7 +38,7 @@ app.post('/upload', gcsUpload.single('file'), function(req, res, next) {
 
 You can also use environment variables for `multer-gcs` parameters.
 
-```
+```bash
 GCS_BUCKET='bucket-name'
 GCLOUD_PROJECT='dummy-project'
 GOOGLE_APPLICATION_CREDENTIALS='/path/to/keyfile.json'
