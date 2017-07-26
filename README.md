@@ -1,6 +1,6 @@
 # multer-gcs
 
-> Multer Storage Engine for Google Cloud Storage.
+> [Multer](https://github.com/expressjs/multer) [storage engine](https://github.com/expressjs/multer/blob/master/StorageEngine.md) for [Google Cloud Storage](https://cloud.google.com/storage/).
 
 Please read the official `@google-cloud/storage` [documentation](https://googlecloudplatform.github.io/google-cloud-node/#/docs/storage/) for additional options.
 
