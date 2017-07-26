@@ -1,4 +1,4 @@
-# multer-storage-gcs
+# multer-gcs
 
 > Multer Storage Engine for Google Cloud Storage.
 
