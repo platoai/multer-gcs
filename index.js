@@ -1,12 +1,12 @@
-var storage = require('@google-cloud/storage');
-var BufferStream = require('bufferstream');
-var crypto = require('crypto');
-var fs = require('fs');
-var mime = require('mime-types');
-var path = require('path');
+const storage = require('@google-cloud/storage');
+const BufferStream = require('bufferstream');
+const crypto = require('crypto');
+const fs = require('fs');
+const mime = require('mime-types');
+const path = require('path');
 
 function getFilename(req, file, cb) {
-	crypto.pseudoRandomBytes(16, function(err, raw) {
+	crypto.pseudoRandomBytes(16, (err, raw) => {
 		cb(err, err ? undefined : raw.toString('hex'));
 	});
 }
@@ -33,19 +33,19 @@ function GCStorage(opts) {
 
 	if (!opts.bucket) {
 		throw new Error(
-			'You have to specify bucket for Google Cloud Storage to work.',
+			'You have to specify bucket for Google Cloud Storage to work.'
 		);
 	}
 
 	if (!opts.projectId) {
 		throw new Error(
-			'You have to specify project id for Google Cloud Storage to work.',
+			'You have to specify project id for Google Cloud Storage to work.'
 		);
 	}
 
 	if (!opts.keyFilename) {
 		throw new Error(
-			'You have to specify credentials key file for Google Cloud Storage to work.',
+			'You have to specify credentials key file for Google Cloud Storage to work.'
 		);
 	}
 
@@ -59,39 +59,37 @@ function GCStorage(opts) {
 }
 
 GCStorage.prototype._handleFile = function(req, file, cb) {
-	var self = this;
-	self.getDestination(req, file, function(err, destination) {
+	const self = this;
+	self.getDestination(req, file, (err, destination) => {
 		if (err) {
 			return cb(err);
 		}
 
-		self.getFilename(req, file, function(err, filename) {
+		self.getFilename(req, file, (err, filename) => {
 			if (err) {
 				return cb(err);
 			}
+
 			// set options for upload
-			var new_options = {
-				//set mime-type
+			const newOptions = {
+				// set mime-type
 				metadata: {contentType: mime.contentType(path.basename(filename))},
-				//add predefined ACL
+				// add predefined ACL
 				predefinedAcl: self.options.acl || 'projectPrivate',
 			};
 
-			var gcFile = self.gcsBucket.file(filename);
-			var fileStream = new BufferStream({size: 'flexible'});
+			const gcFile = self.gcsBucket.file(filename);
+			const fileStream = new BufferStream({size: 'flexible'});
 
 			file.stream
 				.pipe(fileStream)
-				.pipe(gcFile.createWriteStream(new_options))
-				.on('error', function(err) {
+				.pipe(gcFile.createWriteStream(newOptions))
+				.on('error', (err) => {
 					return cb(err);
 				})
-				.on('finish', function(file) {
+				.on('finish', (file) => {
 					return cb(null, {
-						path:
-							'https://storage.googleapis.com/' +
-							self.options.bucket +
-							filename,
+						path: `https://storage.googleapis.com/${self.options.bucket}${filename}`,
 						filename: filename,
 						buffer: fileStream.buffer,
 					});
@@ -101,7 +99,7 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 };
 
 GCStorage.prototype._removeFile = function _removeFile(req, file, cb) {
-	var gcFile = self.gcsBucket.file(file.filename);
+	const gcFile = self.gcsBucket.file(file.filename);
 	gcFile.delete(cb);
 };
 
