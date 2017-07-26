@@ -26,10 +26,10 @@ function GCStorage(opts) {
 		this.getDestination = opts.destination || getDestination;
 	}
 
-	opts.bucket = opts.bucket || process.env.GCS_BUCKET || null;
-	opts.projectId = opts.projectId || process.env.GCLOUD_PROJECT || null;
+	opts.bucket = opts.bucket || process.env.GCS_BUCKET;
+	opts.projectId = opts.projectId || process.env.GCLOUD_PROJECT;
 	opts.keyFilename =
-		opts.keyFilename || process.env.GOOGLE_APPLICATION_CREDENTIALS || null;
+		opts.keyFilename || process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
 	if (!opts.bucket) {
 		throw new Error(
@@ -37,22 +37,7 @@ function GCStorage(opts) {
 		);
 	}
 
-	if (!opts.projectId) {
-		throw new Error(
-			'You have to specify project id for Google Cloud Storage to work.'
-		);
-	}
-
-	if (!opts.keyFilename) {
-		throw new Error(
-			'You have to specify credentials key file for Google Cloud Storage to work.'
-		);
-	}
-
-	this.gcobj = storage({
-		projectId: opts.projectId,
-		keyFilename: opts.keyFilename,
-	});
+	this.gcobj = storage(opts);
 
 	this.gcsBucket = this.gcobj.bucket(opts.bucket);
 	this.options = opts;
@@ -89,7 +74,8 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 				})
 				.on('finish', (file) => {
 					return cb(null, {
-						path: `https://storage.googleapis.com/${self.options.bucket}${filename}`,
+						path: `https://storage.googleapis.com/${self.options
+							.bucket}${filename}`,
 						filename: filename,
 						buffer: fileStream.buffer,
 					});
