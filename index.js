@@ -64,7 +64,8 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 				predefinedAcl: self.options.acl || 'projectPrivate',
 			};
 
-			const gcFile = self.gcsBucket.file(filename);
+			const uploadPath = destination ? `${destination}/${filename}` : filename;
+			const gcFile = self.gcsBucket.file(uploadPath);
 			const fileStream = new BufferStream({size: 'flexible'});
 
 			file.stream.pipe(fileStream);
