@@ -70,10 +70,12 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 
 			file.stream.pipe(fileStream);
 
-      for (const transformer of self.transformers) {
-				file.stream = file.stream.pipe(transformer);
+			for (const transformer of self.transformers) {
+				file.stream = file.stream.pipe(transformer).on('error', (err) => {
+					return cb(err);
+				});
 			}
-      
+
 			file.stream
 				.pipe(gcFile.createWriteStream(newOptions))
 				.on('error', (err) => {
