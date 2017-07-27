@@ -82,11 +82,16 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 					return cb(err);
 				})
 				.on('finish', (file) => {
-					return cb(null, {
-						path: `https://storage.googleapis.com/${self.options
-							.bucket}${filename}`,
-						filename: filename,
-						buffer: fileStream.buffer,
+					gcFile.getSignedUrl({action: 'read'}, (err, url) => {
+						if (err) {
+							return cb(err);
+						}
+
+						return cb(null, {
+							path: url,
+							filename: filename,
+							buffer: fileStream.buffer,
+						});
 					});
 				});
 		});
@@ -94,7 +99,7 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 };
 
 GCStorage.prototype._removeFile = function _removeFile(req, file, cb) {
-	const gcFile = self.gcsBucket.file(file.filename);
+	const gcFile = self.gcsBucket.file(file.path);
 	gcFile.delete(cb);
 };
 
