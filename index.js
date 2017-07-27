@@ -59,7 +59,9 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 			// set options for upload
 			const newOptions = {
 				// set mime-type
-				metadata: {contentType: mime.contentType(path.basename(filename))},
+				metadata: self.options.metadata || {
+					contentType: mime.contentType(path.basename(filename)),
+				},
 				// add predefined ACL
 				predefinedAcl: self.options.acl || 'projectPrivate',
 			};

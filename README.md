@@ -22,7 +22,11 @@ const storage = gcs({
   },
   bucket: 'bucket-name',
   credentials: require('/path/to/keyfile.json'),
-  // optional: Defaults to `projectPrivate`.
+  // optional metadata to add to the file
+  metadata: {
+    contentType: 'audio/wav'
+  },
+  // optional, defaults to `projectPrivate`.
   // see: https://cloud.google.com/storage/docs/access-control/lists
   acl: 'publicRead',
 });
