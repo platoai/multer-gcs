@@ -1,8 +1,5 @@
 const storage = require('@google-cloud/storage');
-const BufferStream = require('bufferstream');
 const crypto = require('crypto');
-const fs = require('fs');
-const path = require('path');
 
 function getFilename(req, file, cb) {
 	crypto.pseudoRandomBytes(16, (err, raw) => {
@@ -39,7 +36,7 @@ function GCStorage(opts) {
 	this.gcobj = storage(opts);
 	this.gcsBucket = this.gcobj.bucket(opts.bucket);
 
-	this.transformers = opts.transformers || [];
+	opts.transformers = opts.transformers || [];
 	this.options = opts;
 }
 
@@ -63,22 +60,19 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 
 			const uploadPath = destination ? `${destination}/${filename}` : filename;
 			const gcFile = self.gcsBucket.file(uploadPath);
-			const fileStream = new BufferStream({size: 'flexible'});
 
-			file.stream.pipe(fileStream);
+			let piped = file.stream;
 
-			for (const transformer of self.transformers) {
-				file.stream = file.stream.pipe(transformer).on('error', (err) => {
-					return cb(err);
-				});
+			for (const transformer of self.options.transformers) {
+				piped = piped.pipe(transformer());
 			}
 
-			file.stream
-				.pipe(gcFile.createWriteStream(newOptions))
+			piped
+				.pipe(gcFile.createWriteStream(uploadOptions))
 				.on('error', (err) => {
 					return cb(err);
 				})
-				.on('finish', (file) => {
+				.on('finish', () => {
 					const urlConfig = self.options.urlConfig || {
 						actions: 'read',
 						expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
@@ -92,7 +86,6 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 						return cb(null, {
 							path: url,
 							filename: filename,
-							buffer: fileStream.buffer,
 							mimetype: uploadOptions.metadata.contentType || file.mimetype,
 						});
 					});
