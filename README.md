@@ -60,9 +60,9 @@ supported by the `gcs` method. For more information, read their
 
 #### transformers
 
-You can also pass an array of anything that implements the [streaming
-interface](https://nodejs.org/api/stream.html) and they will be applied before
-uploading the file to Google Cloud Storage.
+You can also pass an array of functions that return anything that implements the
+[streaming interface](https://nodejs.org/api/stream.html) and they will be
+applied before uploading the file to Google Cloud Storage.
 
 ```javascript
 const gcs = require('@platoai/multer-gcs');
@@ -71,7 +71,7 @@ const sox = require('sox-stream');
 const storage = gcs({
   bucket: 'bucket-name',
   transformers: [
-    sox({output: {type: 'wav'}})
+    () => sox({output: {type: 'wav'}})
   ],
 });
 ```
