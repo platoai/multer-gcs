@@ -2,7 +2,6 @@ const storage = require('@google-cloud/storage');
 const BufferStream = require('bufferstream');
 const crypto = require('crypto');
 const fs = require('fs');
-const mime = require('mime-types');
 const path = require('path');
 
 function getFilename(req, file, cb) {
@@ -57,12 +56,8 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 			}
 
 			// set options for upload
-			const newOptions = {
-				// set mime-type
-				metadata: self.options.metadata || {
-					contentType: mime.contentType(path.basename(filename)),
-				},
-				// add predefined ACL
+			const uploadOptions = {
+				metadata: self.options.metadata || {contentType: file.mimetype},
 				predefinedAcl: self.options.acl || 'projectPrivate',
 			};
 
@@ -98,6 +93,7 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 							path: url,
 							filename: filename,
 							buffer: fileStream.buffer,
+							mimetype: uploadOptions.metadata.contentType || file.mimetype,
 						});
 					});
 				});
