@@ -26,8 +26,14 @@ const storage = gcs({
   metadata: {
     contentType: 'audio/wav'
   },
-  // optional, defaults to `projectPrivate`.
-  // see: https://cloud.google.com/storage/docs/access-control/lists
+  // optional, passed to the @google-cloudg/storage `getSignedUrl` method
+  // defaults to:
+  urlConfig: {
+    action: 'read',
+    expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
+  },
+  // optional, see: https://cloud.google.com/storage/docs/access-control/lists
+  // defaults to:
   acl: 'publicRead',
 });
 

@@ -84,7 +84,12 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 					return cb(err);
 				})
 				.on('finish', (file) => {
-					gcFile.getSignedUrl({action: 'read'}, (err, url) => {
+					const urlConfig = self.options.urlConfig || {
+						actions: 'read',
+						expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
+					};
+
+					gcFile.getSignedUrl(urlConfig, (err, url) => {
 						if (err) {
 							return cb(err);
 						}
