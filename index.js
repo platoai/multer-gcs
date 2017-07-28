@@ -84,7 +84,9 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 						}
 
 						return cb(null, {
-							path: url,
+							destination: destination,
+							path: uploadPath,
+							url: url,
 							filename: filename,
 							mimetype: uploadOptions.metadata.contentType || file.mimetype,
 						});
