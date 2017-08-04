@@ -64,7 +64,9 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 			let piped = file.stream;
 
 			for (const transformer of self.options.transformers) {
-				piped = piped.pipe(transformer());
+				piped = piped.pipe(transformer()).on('error', (err) => {
+					return cb(err);
+				});
 			}
 
 			piped
