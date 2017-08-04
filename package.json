@@ -1,6 +1,6 @@
 {
   "name": "@platoai/multer-gcs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Streaming multer storage engine for Google Cloud Storage",
   "main": "index.js",
   "repository": {
