@@ -61,15 +61,15 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 			const uploadPath = destination ? `${destination}/${filename}` : filename;
 			const gcFile = self.gcsBucket.file(uploadPath);
 
-			let piped = file.stream;
+			let stream = file.stream;
 
 			for (const transformer of self.options.transformers) {
-				piped = piped.pipe(transformer()).on('error', (err) => {
+				stream = stream.pipe(transformer()).on('error', (err) => {
 					return cb(err);
 				});
 			}
 
-			piped
+			stream
 				.pipe(gcFile.createWriteStream(uploadOptions))
 				.on('error', (err) => {
 					return cb(err);
