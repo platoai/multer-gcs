@@ -99,7 +99,7 @@ GCStorage.prototype._handleFile = function(req, file, cb) {
 };
 
 GCStorage.prototype._removeFile = function _removeFile(req, file, cb) {
-	const gcFile = self.gcsBucket.file(file.path);
+	const gcFile = this.gcsBucket.file(file.path);
 	gcFile.delete(cb);
 };
 
