@@ -23,9 +23,6 @@ function GCStorage(opts) {
 	}
 
 	opts.bucket = opts.bucket || process.env.GCS_BUCKET;
-	opts.projectId = opts.projectId || process.env.GCLOUD_PROJECT;
-	opts.keyFilename =
-		opts.keyFilename || process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
 	if (!opts.bucket) {
 		throw new Error(
@@ -33,7 +30,13 @@ function GCStorage(opts) {
 		);
 	}
 
-	this.gcobj = storage(opts);
+	const options = ['projectId', 'keyFilename', 'credentials'];
+	const config = options.reduce((accumulator, option) => {
+		if (opts[option]) accumulator[option] = opts[option];
+		return accumulator;
+	}, {});
+
+	this.gcobj = Object.keys(config).length > 0 ? storage(config) : storage();
 	this.gcsBucket = this.gcobj.bucket(opts.bucket);
 
 	opts.transformers = opts.transformers || [];
