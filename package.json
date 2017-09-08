@@ -28,7 +28,8 @@
   },
   "homepage": "https://github.com/platoai/multer-gcs#readme",
   "dependencies": {
-    "@google-cloud/storage": "^1.2.1"
+    "@google-cloud/storage": "^1.2.1",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "@platoai/eslint-config": "^0.0.5",

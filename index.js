@@ -1,10 +1,8 @@
 const storage = require('@google-cloud/storage');
-const crypto = require('crypto');
+const uuid = require('uuid/v4');
 
 function getFilename(req, file, cb) {
-	crypto.pseudoRandomBytes(16, (err, raw) => {
-		cb(err, err ? undefined : raw.toString('hex'));
-	});
+	cb(null, uuid());
 }
 
 function getDestination(req, file, cb) {
