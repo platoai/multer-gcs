@@ -9,7 +9,7 @@ function getDestination(req, file, cb) {
 	cb(null, '');
 }
 
-function GCStorage(opts={}) {
+function GCStorage(opts = {}) {
 	this.getFilename = opts.filename || getFilename;
 
 	if ('string' === typeof opts.destination) {
