@@ -32,7 +32,7 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "@voxjar/eslint-config": "^0.0.5",
+    "@voxjar/eslint-config": "^0.1.0",
     "eslint": "^4.3.0",
     "prettier-eslint-cli": "^4.1.1"
   },
