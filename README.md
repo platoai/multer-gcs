@@ -7,14 +7,14 @@ Please read the official `@google-cloud/storage` [documentation](https://googlec
 ## Installation
 
 ```
-npm install @platoai/multer-gcs
+npm install @voxjar/multer-gcs
 ```
 
 ## Usage
 
 ```javascript
 const multer = require('multer');
-const gcs = require('@platoai/multer-gcs');
+const gcs = require('@voxjar/multer-gcs');
 
 const storage = gcs({
   filename: function(req, file, cb) {
@@ -46,7 +46,7 @@ app.post('/upload', gcsUpload.single('file'), function(req, res, next) {
 
 #### configuration
 
-You can also use environment variables for `@platoai/multer-gcs` parameters.
+You can also use environment variables for `@voxjar/multer-gcs` parameters.
 
 ```bash
 GCS_BUCKET='bucket-name'
@@ -65,7 +65,7 @@ You can also pass an array of functions that return anything that implements the
 applied before uploading the file to Google Cloud Storage.
 
 ```javascript
-const gcs = require('@platoai/multer-gcs');
+const gcs = require('@voxjar/multer-gcs');
 const sox = require('sox-stream');
 
 const storage = gcs({

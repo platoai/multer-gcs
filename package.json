@@ -1,11 +1,11 @@
 {
-  "name": "@platoai/multer-gcs",
+  "name": "@voxjar/multer-gcs",
   "version": "1.1.0",
   "description": "Streaming multer storage engine for Google Cloud Storage",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/platoai/multer-gcs.git"
+    "url": "git+https://github.com/voxjar/multer-gcs.git"
   },
   "keywords": [
     "multer",
@@ -18,27 +18,27 @@
   "contributors": [
     {
       "name": "William Myers",
-      "email": "will@platoai.com",
-      "url": "https://github.com/platoai/multer-gcs",
+      "email": "will@voxjar.com",
+      "url": "https://github.com/voxjar/multer-gcs",
       "contributions": 1
     }
   ],
   "bugs": {
-    "url": "https://github.com/platoai/multer-gcs/issues"
+    "url": "https://github.com/voxjar/multer-gcs/issues"
   },
-  "homepage": "https://github.com/platoai/multer-gcs#readme",
+  "homepage": "https://github.com/voxjar/multer-gcs#readme",
   "dependencies": {
     "@google-cloud/storage": "^1.2.1",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "@platoai/eslint-config": "^0.0.5",
+    "@voxjar/eslint-config": "^0.0.5",
     "eslint": "^4.3.0",
     "prettier-eslint-cli": "^4.1.1"
   },
   "eslintConfig": {
     "extends": [
-      "@platoai"
+      "@voxjar"
     ],
     "env": {
       "browser": false,
